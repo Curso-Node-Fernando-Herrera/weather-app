@@ -1,4 +1,6 @@
 const inquirer = require('inquirer')
+const { useSearchWeather } = require('../hooks/useSearchWeather')
+require('dotenv').config()
 require('colors')
 
 const selectPlaceToShow = async (places) => {
@@ -15,10 +17,16 @@ const selectPlaceToShow = async (places) => {
   const currentPlace = places.find(({ id }) => id === placeSelected)
   const { name, lng, lat } = currentPlace
 
+  const { temp, temp_max, temp_min, normalizedDescription } =
+    await useSearchWeather({ lat, lng })
+
   console.log(`Ciudad: ${name}`)
   console.log(`Lat: ${lat}`)
   console.log(`Lng: ${lng}`)
-  console.log(`...`)
+  console.log(`Temperatura: ${temp}`)
+  console.log(`Temp maxima: ${temp_max}`)
+  console.log(`Temp minima: ${temp_min}`)
+  console.log(`Descripcion: ${normalizedDescription}`)
 }
 
 module.exports = {
