@@ -1,4 +1,5 @@
 const inquirer = require('inquirer')
+const { useSaveHistory } = require('../hooks/useSaveHistory')
 const { useSearchWeather } = require('../hooks/useSearchWeather')
 require('dotenv').config()
 require('colors')
@@ -16,6 +17,8 @@ const selectPlaceToShow = async (places) => {
 
   const currentPlace = places.find(({ id }) => id === placeSelected)
   const { name, lng, lat } = currentPlace
+
+  await useSaveHistory(name)
 
   const { temp, temp_max, temp_min, normalizedDescription } =
     await useSearchWeather({ lat, lng })
